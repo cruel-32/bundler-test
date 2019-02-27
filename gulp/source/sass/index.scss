@@ -1,0 +1,54 @@
+@import 'mixin/response';
+
+$main-width:100%;
+.wrap {
+    $width:10px !global;
+    border:$width solid red;
+    $main_color:#eaeaea;
+    background: $main-color;
+    width:$main-width;
+    .show {
+        display:block;
+    }
+    @include pc-only {
+        width:50%;
+        &.set {
+            width:10px;
+            .setting1 {
+                width:15px;
+            }
+            .setting2 {
+                width:25px;
+            }
+        }
+    }
+    @include pc-large {
+        width:50%;
+    }
+    @include tab {
+        width:30%;
+    }
+}
+
+.sidebar {
+    width:$width;
+    @include pc-only {
+        width:50%;
+    }
+    @include pc-large {
+        width:50%;
+    }
+}
+
+.footer {
+    width:50px;
+    .address1 {
+        width:10px;
+        .address2 {
+            width:10px;
+        }
+    }
+    .address2 {
+        width:10px;
+    }
+}
