@@ -53,3 +53,17 @@ console.log(
 );
 
 
+const babelTest = (counter) => counter+1
+
+class BabelClass {
+    constructor(name){
+        this.name = name;
+    }
+    introduce(str){
+        return this.name + str;
+    }
+}
+
+const babelClass = new BabelClass('바벨');
+
+console.log('test : ',babelClass.introduce('테스터'));
