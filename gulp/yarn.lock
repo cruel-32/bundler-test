@@ -3692,7 +3692,7 @@ gulp-sass@^4.0.2:
     through2 "^2.0.0"
     vinyl-sourcemaps-apply "^0.2.0"
 
-gulp-sitemap-generator@*:
+gulp-sitemap-generator@0.1.9:
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/gulp-sitemap-generator/-/gulp-sitemap-generator-0.1.9.tgz#20a049087ba80da15dbe8f189e6ff2f1e7b82e4c"
   dependencies:
