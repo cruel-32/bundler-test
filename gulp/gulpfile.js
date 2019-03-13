@@ -214,7 +214,8 @@ const cleanDocs = async (done) => {
 const sassdocfy = () =>
     src(`${origin}/css/**/*.{scss,sass}`)
     .pipe(sassdoc({
-        dest: `./${docs}/sass`
+        dest: `./${docs}/sass`,
+        // theme : `./node_modules/sassdoc-theme-jigsass`
     }))
     .resume();
 
@@ -226,7 +227,7 @@ const jsdocfy = () => src([`${origin}/js/**/*.js`], {read: false})
         },
     }))
 
-const jsdocfyMd = (done) => {
+const api = (done) => {
     jsdoc2md.render({ files: `${origin}/js/**/*.js` })
     .then(output => fs.writeFileSync(`./readme.md`, output))
     done();
@@ -241,16 +242,14 @@ const watcher = () => {
     watch([`${origin}/images/svg/**/*.svg`], fontawesome).on('change', browsersync.reload);
 }
 
-exports.default = series(clean, sprite, fontawesome, parallel(html, css, scripts, images));
-exports.serve = series(clean, sprite, fontawesome, parallel(html, css, scripts, images), parallel(browserSyncInit, watcher) ); //주로 사용하는 task
+exports.default = series(clean, sprite, fontawesome, parallel(html, css, scripts, images), parallel(browserSyncInit, watcher) );
 exports.clean = clean;
-exports.imagesOptimize = imagesOptimization;
+exports.optimize = imagesOptimization;
 exports.pack = series(clean, sprite, fontawesome, parallel(html, css, scripts, images), packing);
 exports.docs = series(cleanDocs, parallel(sassdocfy, jsdocfy));
-exports.md = parallel(jsdocfyMd);
+exports.api = api;
 exports.inlineCssInit = series(sprite, fontawesome, parallel(html, css, scripts, images), inlineCssInit); //매일 보낼일이 없어 아직까지 실용성을 못찾겠음... 그럴일이 생긴다면 수정해서 메일 보낼때나 쓰자...
 exports.deployFtp = series(clean, sprite, fontawesome, parallel(html, css, scripts, images), deployFtp);
-
 
 //jsdocs 간편 사용법
 //함수앞에 /* 이 함수는 무슨 함수다  */ 이런식으로 주석달기
@@ -271,7 +270,6 @@ exports.deployFtp = series(clean, sprite, fontawesome, parallel(html, css, scrip
 //위와 같이 annotation달기
 //자세한 사용법 http://usejsdoc.org/ 참고
 
-
 //sassdocs 간편 사용법
 // /를 3개 입력후 아래처럼 주석달기
 //
@@ -287,187 +285,4 @@ exports.deployFtp = series(clean, sprite, fontawesome, parallel(html, css, scrip
 ///         display:block;
 ///       }
 ///   }
-
 //자세한 사용법 http://sassdoc.com/getting-started/ 참고
-
-
-
-//3.9버전 셋팅
-// gulp.task('clean', () => {
-//     return gulp.src(`${project}`, {
-//             read: false
-//         })
-//         .pipe(clean());
-// });
-
-// gulp.task('js', () => {
-//     return gulp.src(`./${origin}/js/**/*.js`)
-//         .pipe(newer(`${origin}/js/*.js`))
-//         .pipe(plumber({errorHandler : gutil.log}))
-//         .pipe(jshint())
-//         .pipe(babel({
-//             presets: ['es2015']
-//         }))
-//         // .pipe(minify({
-//         //     ext: {
-//         //         src:'-debug.js',
-//         //         min: '.js'
-//         //     },
-//         //     // exclude: ['tasks'],
-//         //     ignoreFiles: ['-min.js']
-//         // }))
-//         .pipe(gulp.dest(`${project}/js`))
-//         .pipe(connect.reload())
-// });
-
-// gulp.task('images', () => {
-//     return gulp.src([
-//             `${origin}/images/**/*.{gif,jpeg,jpg,png,svg}`,
-//             `!${origin}/images/sprite/**/*.png`,
-//             `!${origin}/images/svg/**/*.svg`
-//         ])
-//         .pipe(newer(`${project}/images/**/*.{gif,jpeg,jpg,png,svg}`))
-//         .pipe(gulp.dest(`${project}/images`))
-//         .pipe(connect.reload());
-// });
-
-// gulp.task('sprite', () => {
-//     let opts = {
-//         spritesmith(options, sprite, icons) {
-//             options.imgPath = `/images/sprite/${options.imgName}`;
-//             options.cssName = `${sprite}.css`;
-//             options.cssSpritesheetName = sprite;
-//             options.padding = 10;
-//             options.cssVarMap = (spr) => {
-//                 spr.name = `${spr.name}`;
-//             };
-//             return options;
-//         }
-//     };
-//     let spriteData = gulp.src(`${origin}/images/sprite/**/*.png`).pipe(spritesmith(opts)).on('error', (err) => {
-//         console.log(err)
-//     });
-//     let imgStream = spriteData.img.pipe(gulp.dest(`${project}/images/sprite`));
-//     let cssStream = spriteData.css
-//         .pipe(csscomb({
-//             configPath: 'hint/.csscomb.json'
-//         }))
-//         // .pipe(cssmin())
-//         .pipe(gulp.dest(`${project}/css`));
-//     return merge(imgStream, cssStream);
-// });
-
-// gulp.task('iconfont', function() {
-//     return gulp.src([`${origin}/images/svg/**/*.svg`])
-//         .pipe(iconfontCss({
-//             fontName: `awesome`,
-//             path: `${origin}/css/_icons.css`, //css rules를 생성해줄 css 파일
-//             targetPath: `../css/_icons.css`, //css가 생성되는 경로. 근데 왜 경로가 dest 기준이냐
-//             fontPath: `/fonts/` //css내에서 font의 경로를 잡아준다
-//         }))
-//         .pipe(iconfont({
-//             fontName: `awesome`,
-//             fontHeight: '1000',
-//             normalize: true
-//         }))
-//         .pipe(gulp.dest(`${project}/fonts`));
-// });
-
-// gulp.task('html', () => {
-//     return gulp.src([`${origin}/**/*.html`, `!${origin}/include/*.html`,`!${origin}/map.html`])
-//         .pipe(newer(`${origin}/**/*.html`))
-//         .pipe(fileinclude({
-//             prefix: '@@',
-//             basepath: `${origin}/include`,
-//             context: {
-//                 name: 'example'
-//             }
-//         }))
-//         .pipe(htmlhint('hint/.htmlhintrc'))
-//         .pipe(data((file)=>{
-//             return JSON.parse(fs.readFileSync(`${origin}/json/default.json`))
-//         }))
-//         .pipe(data((file)=>{
-//             try {
-//                 const ext = path.extname(file.path);
-//                 const jsonFile = file.path.split(`${origin}\\html\\`)[1].split(ext)[0];
-//                 //html과 같은 경로와 같은 파일명으로 json파일을 넣으면 json데이터가 자동삽입됨
-//                 return JSON.parse(fs.readFileSync(`${origin}/json/${jsonFile}.json`));
-//             } catch(err){
-//                 return {}
-//             }
-//         }))
-//         .pipe(template())
-//         .pipe(sitemap({
-//             'name':`map.html`,
-//             'noDir': '상위',
-//             'dest':``,
-//             'app':`${origin}`,
-//             'untitle':'-',
-//             'unknown':'cruel32',
-//             'noDescription':'설명이 없어요',
-//             'division':'html'
-//         }))
-//         .pipe(gulp.dest(`${project}`))
-//         .pipe(connect.reload());
-// });
-
-// gulp.task('css', () => {
-//     return gulp.src([`${origin}/css/**/*.{scss,sass,css}`,`!${origin}/css/mixin/*.{scss,sass}`])
-//         .pipe(newer(`${origin}/css/**/*.{scss,sass,css}`))
-//         .pipe(sourcemaps.init())
-//         .pipe(sass().on('error', sass.logError))
-//         .pipe(autoprefixer())
-//         .pipe(gcmq())
-//         .pipe(csscomb({
-//             configPath: 'hint/.csscomb.json'
-//         }))
-//         /*
-//             *** csscomb 커스터마이징 ***
-//             node_modules/csscomb/lib/options/strip-spaces.js 파일에서 9 lines 수정
-
-//             수정전:
-//             return string.replace(/[ \t]+\n/g, '\n');
-            
-//             수정후:
-//             return string.replace(/[ \t]+\n/g, '\n').replace(/\n\n/g, '\n');
-//         */
-//         .pipe(sourcemaps.write())
-//         // .pipe(cssmin())
-//         .pipe(gulp.dest(`${project}/css`))
-//         .pipe(connect.reload());
-// });
-
-// gulp.task('inlineCss',function(){
-//     return gulp.src([`${origin}/inline/**/*.html`])
-//         .pipe(newer(`${origin}/inline/**/*.html`))
-//         .pipe(inlineCss({
-//             applyStyleTags: true,
-//             applyLinkTags: true,
-//             removeStyleTags: true,
-//             removeLinkTags: true
-//         }))
-//         .pipe(gulp.dest(`${project}`))
-//         .pipe(connect.reload());
-// })
-
-// gulp.task('connect', function() {
-//     connect.server({
-//         root: `${project}`,
-//         port: 5000,
-//         livereload: true
-//     });
-// });
-
-// gulp.task('watch', () => {
-//     gulp.watch(`${origin}/images/**/*.{gif,jpeg,jpg,png,svg}`, ['images'])
-//     gulp.watch(`${origin}/images/sprite/**/*.png`, ['sprite'])
-//     gulp.watch(`${origin}/images/svg/**/*.svg`, ['iconfont'])
-//     gulp.watch(`${origin}/js/**/*.js`, ['js']);
-//     gulp.watch(`${origin}/html/**/*.html`, ['html'])
-//     gulp.watch(`${origin}/css/**/*.{scss,sass.css}`, ['css']);
-//     gulp.watch(`${origin}/json/**/*.json`, ['html']);
-// });
-
-// gulp.task('default', ['html', 'css', 'js', 'images', 'sprite', 'iconfont']);
-// gulp.task('serve', ['connect', 'watch']);
