@@ -27,8 +27,12 @@ const gutil = require('gulp-util'),
     path = require('path'),
     zip = require('gulp-zip')
     ftp = require( 'vinyl-ftp' ),
+    sassdoc = require('sassdoc'),
+    jsdoc = require('gulp-jsdoc3'),
+    jsdoc2md = require('jsdoc-to-markdown'),
     origin = "source",
-    project = "build";
+    project = "build",
+    docs = "docs";
 
 const clean = async (done) => {
     await del([`${project}`]);
@@ -98,8 +102,7 @@ const css = () => src([`${origin}/css/**/*.{scss,sass}`,`!${origin}/css/import/*
     .pipe(dest(`${project}/css`))
     .pipe(browsersync.stream());;
 
-
-const images = () =>  src([
+const images = () => src([
         `${origin}/images/**/*.{gif,jpeg,jpg,png,svg}`,
         `!${origin}/images/sprite/**/*.png`,
         `!${origin}/images/svg/**/*.svg`
@@ -107,10 +110,9 @@ const images = () =>  src([
     .pipe(newer(`${project}/images/**/*.{gif,jpeg,jpg,png,svg}`))
     .pipe(dest(`${project}/images`))
 
-const imagesOptimization = () =>  src([
-        `${origin}/images/**/*.{gif,jpeg,jpg,png,svg}`,
-        `!${origin}/images/sprite/**/*.png`,
-        `!${origin}/images/svg/**/*.svg`
+//dest 폴더에 생성된 이미지를 한번더 압축
+const imagesOptimization = () => src([
+        `${project}/images/**/*.{gif,jpeg,jpg,png,svg}`,
     ], {since: lastRun(imagesOptimization)})
     .pipe(newer(`${project}/images/**/*.{gif,jpeg,jpg,png,svg}`))
     .pipe(imagemin())
@@ -204,6 +206,32 @@ const deployFtp = () => {
         .pipe(conn.dest('/public_html/test_folder/'));
 }
 
+const cleanDocs = async (done) => {
+    await del([`${docs}`]);
+    done();
+}
+
+const sassdocfy = () =>
+    src(`${origin}/css/**/*.{scss,sass}`)
+    .pipe(sassdoc({
+        dest: `./${docs}/sass`
+    }))
+    .resume();
+
+const jsdocfy = () => src([`${origin}/js/**/*.js`], {read: false})
+    .pipe(jsdoc({
+        "opts": {
+            "destination": `./${docs}/js`,
+            "template": "./node_modules/docdash"
+        },
+    }))
+
+const jsdocfyMd = (done) => {
+    jsdoc2md.render({ files: `${origin}/js/**/*.js` })
+    .then(output => fs.writeFileSync(`./readme.md`, output))
+    done();
+}
+
 const watcher = () => {
     watch([`${origin}/html/**/*.html`, `${origin}/json/**/*.json`], html).on('change', browsersync.reload);
     watch([`${origin}/css/**/*.{scss,sass.css}`], css).on('change', browsersync.reload);
@@ -213,16 +241,56 @@ const watcher = () => {
     watch([`${origin}/images/svg/**/*.svg`], fontawesome).on('change', browsersync.reload);
 }
 
+exports.default = series(clean, sprite, fontawesome, parallel(html, css, scripts, images));
+exports.serve = series(clean, sprite, fontawesome, parallel(html, css, scripts, images), parallel(browserSyncInit, watcher) ); //주로 사용하는 task
 exports.clean = clean;
-exports.imagesOpt = imagesOptimization;
+exports.imagesOptimize = imagesOptimization;
 exports.pack = series(clean, sprite, fontawesome, parallel(html, css, scripts, images), packing);
-
-exports.default = series(clean, sprite, fontawesome, parallel(html, css, scripts, images), imagesOptimization);
-exports.serve = series(clean, sprite, fontawesome, parallel(html, css, scripts, images), parallel(browserSyncInit, watcher) );
-
-//매일 보낼일이 없어 아직까지 실용성을 못찾겠음... 그럴일이 생긴다면 수정해서 메일 보낼때나 쓰자...
-exports.inlineCssInit = series(sprite, fontawesome, parallel(html, css, scripts, images), inlineCssInit);
+exports.docs = series(cleanDocs, parallel(sassdocfy, jsdocfy));
+exports.md = parallel(jsdocfyMd);
+exports.inlineCssInit = series(sprite, fontawesome, parallel(html, css, scripts, images), inlineCssInit); //매일 보낼일이 없어 아직까지 실용성을 못찾겠음... 그럴일이 생긴다면 수정해서 메일 보낼때나 쓰자...
 exports.deployFtp = series(clean, sprite, fontawesome, parallel(html, css, scripts, images), deployFtp);
+
+
+//jsdocs 간편 사용법
+//함수앞에 /* 이 함수는 무슨 함수다  */ 이런식으로 주석달기
+// *표 두개 후 아래처럼 주석달기
+/**
+     * 클래스.
+     * @constructor
+     * @param {string} name - 설명을 적는다
+     */
+/**
+     * 이 함수는 이름+문자를 리턴
+     * @name setName
+     * @name function
+     * @name global
+     * @param {string} str - 설명을 적는다
+     * @returns {string}
+*/
+//위와 같이 annotation달기
+//자세한 사용법 http://usejsdoc.org/ 참고
+
+
+//sassdocs 간편 사용법
+// /를 3개 입력후 아래처럼 주석달기
+//
+/// @group 그룹이름
+/// @author 작성자
+///
+/// @param {타입값적기} $name [기본값적기] - 설명을 적는다
+/// @output `font-size`설명을 적는다.
+///
+/// @example scss - 설명을 적는다
+///   .foo {
+///       @include pc_only {
+///         display:block;
+///       }
+///   }
+
+//자세한 사용법 http://sassdoc.com/getting-started/ 참고
+
+
 
 //3.9버전 셋팅
 // gulp.task('clean', () => {

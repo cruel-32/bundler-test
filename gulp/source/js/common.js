@@ -18,3 +18,54 @@
     - 화면 또는 로그 파일에 출력
     - HTML 문서, 브라우저 쿠키, DB에 질의
 */
+
+/**
+ * common 클래스.
+ * @constructor
+ * @param {string} name - 역시 아무의미 없는 이름입니다.
+ * @link introduce
+ */
+class CommonClass {
+    constructor(name){
+        this.name = name;
+    }
+    /**
+     * setName함수로 문서화 연습
+     * @param {string} a 아무상관없다
+     * @param {boolean} retArr 의미없는 문서작성용
+     * @returns {(number|Array)} 문서화 버릇을 들여놓읍시다
+    */
+    setName(str){
+        return this.name + str;
+    }
+    /**
+     * getName 함수입니다
+     * @returns {(string)} name값 리턴
+     * @example <caption>샘플예제1</caption>
+     * this.getName() //name
+    */
+    getName(){
+        return this.name
+    }
+}
+
+const commonClass = new CommonClass('csh');
+
+console.log('test : ', commonClass.setName('테스터'));
+
+/** 
+* @global
+* @function
+* @param {int} number - 헤헤헤헿
+* @returns {(int)} +1 값을 리턴
+*/
+const globalFunction = number => number+1
+
+
+/** 
+* @global
+* @function
+* @param {int} number - 헤헤헤헿2
+* @returns {(int)} -1 값을 리턴
+*/
+const groupTest = number => number-1

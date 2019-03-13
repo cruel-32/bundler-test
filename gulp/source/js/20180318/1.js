@@ -53,12 +53,26 @@ console.log(
 );
 
 
+
+/* babelTest는 +1해주는 함수다  */
 const babelTest = (counter) => counter+1
 
+/**
+ * 바벨 클래스.
+ * @constructor
+ * @param {string} name - 역시 아무의미 없는 이름입니다.
+ * @link introduce
+ */
 class BabelClass {
     constructor(name){
         this.name = name;
     }
+    /**
+     * introduce함수로 문서화 연습
+     * @param {string} a 아무상관없다
+     * @param {boolean} retArr 의미없는 문서작성용
+     * @returns {(number|Array)} 문서화 버릇을 들여놓읍시다
+    */
     introduce(str){
         return this.name + str;
     }

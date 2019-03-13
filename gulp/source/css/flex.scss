@@ -31,6 +31,9 @@ $attrList :
         // flex-shrink:1;
         // flex-basis:100px;
         flex:1 1 auto;
+        @include pc_only {
+            display:block;
+        }
         @each $color in $attrList {
             $i: index($attrList, $color)-1;
             &.child-#{$i} {
