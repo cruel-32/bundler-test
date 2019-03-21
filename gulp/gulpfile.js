@@ -20,7 +20,7 @@ const gutil = require('gulp-util'),
     inlineCss = require('gulp-inline-css'),
     data = require('gulp-data'),
     template = require('gulp-template'),
-    sitemap = require('gulp-sitemap-generator'),
+    filemapGenerator = require('gulp-filemap-generator'),
     browsersync = require("browser-sync").create(),
     del = require('del'),
     fs = require('fs'),
@@ -30,6 +30,8 @@ const gutil = require('gulp-util'),
     sassdoc = require('sassdoc'),
     jsdoc = require('gulp-jsdoc3'),
     jsdoc2md = require('jsdoc-to-markdown'),
+    cached = require('gulp-cached'),
+    remember = require('gulp-remember'),
     origin = "source",
     project = "build",
     docs = "docs";
@@ -63,18 +65,23 @@ const html = ()=> src([`${origin}/**/*.html`, `!${origin}/include/*.html`, `!${o
         }
     }))
     .pipe(template())
-    .pipe(sitemap({
-        'name':`map.html`,
-        'noDir': '상위',
-        'dest': ``,
-        'app':`${origin}`,
-        'untitle':'-',
-        'unknown':'cruel32',
-        'noDescription':'설명이 없어요',
-        'division':'html'
-    }))
     .pipe(dest(`${project}`))
     .pipe(browsersync.stream());
+
+const generateFilemap = () => src([`${project}/**/*.html`], {since: lastRun(html)})
+    .pipe(filemapGenerator({
+        'template':`map.html`,
+        'templatePath':`${origin}`,
+        'directory': '상위',
+        'title':'-',
+        'author':'cruel32',
+        'description':'설명이 없어요',
+        'stream' : false,
+        'baseDir' : `${project}`,
+        'entryDir' : `` 
+    }))
+    .pipe(dest(`${project}`))
+
 
 const scripts = ()=> src(`${origin}/js/**/*.js`, {since: lastRun(scripts)})
     .pipe(newer(`${project}/js/**/*.js`))
@@ -242,7 +249,7 @@ const watcher = () => {
     watch([`${origin}/images/svg/**/*.svg`], fontawesome).on('change', browsersync.reload);
 }
 
-exports.default = series(clean, sprite, fontawesome, parallel(html, css, scripts, images), parallel(browserSyncInit, watcher) );
+exports.default = series(clean, sprite, fontawesome, parallel(html, css, scripts, images), generateFilemap, parallel(browserSyncInit, watcher) );
 exports.clean = clean;
 exports.optimize = imagesOptimization;
 exports.pack = series(clean, sprite, fontawesome, parallel(html, css, scripts, images), packing);
