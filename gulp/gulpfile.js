@@ -72,13 +72,14 @@ const generateFilemap = () => src([`${project}/**/*.html`], {since: lastRun(html
     .pipe(filemapGenerator({
         'template':`map.html`,
         'templatePath':`${origin}`,
-        'directory': '상위',
+        'root': '/root/',
         'title':'-',
         'author':'cruel32',
         'description':'설명이 없어요',
         'stream' : false,
         'baseDir' : `${project}`,
-        'entryDir' : `` 
+        'listName' : 'maps',
+        'hrefBaseDir' : ``
     }))
     .pipe(dest(`${project}`))
 
@@ -250,6 +251,7 @@ const watcher = () => {
 }
 
 exports.default = series(clean, sprite, fontawesome, parallel(html, css, scripts, images), generateFilemap, parallel(browserSyncInit, watcher) );
+exports.filemap = generateFilemap;
 exports.clean = clean;
 exports.optimize = imagesOptimization;
 exports.pack = series(clean, sprite, fontawesome, parallel(html, css, scripts, images), packing);

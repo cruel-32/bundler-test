@@ -8,72 +8,68 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="/css/reset.css" />
 <link rel="stylesheet" type="text/css" href="/css/map.css" />
+<link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr", crossorigin="anonymous"/>
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=korean" />
 </head>
 <body>
 
 <div class="wrap">
-    <h1 class="title">gulp-sitemap-generator</h1>
-    <!-- division 옵션을 주었을 경우 maps가 이중배열로 넘어온다. 예) maps:[[],[],[]] -->
-    <% _.each(maps, function(map,idx) { %>
-    <h2 class="page"><%= folderNames[idx] %> 목록</h1>
-    <table class="table">
-        <colgroup> 
-            <col style="width:20%;">
-            <col style="width:20%;">
-            <col style="width:30%;">
-            <col style="width:10%;">
-            <col style="width:20%;">
-        </colgroup>
-        <thead>
-            <tr class="tr">
-                <th class="th"><span class="txt">타이틀</span></th>
-                <th class="th"><span class="txt">파일경로</span></th>
-                <th class="th"><span class="txt">파일명</span></th>
-                <th class="th"><span class="txt">작업자</span></th>
-                <th class="th"><span class="txt">설명</span></th>
-            </tr>
-        </thead>
-        <tbody>
-            <% _.each(map, function(m,index) { %>
-            <tr class="tr">
-                <td class="td"><span class="txt"><%= m.title %></td>
-                <td class="td"><span class="txt left"><%= m.href %></span></td>
-                <td class="td"><a href="<%= m.href %>" class="txt" target="_blank"><%= m.name %></a></td>
-                <td class="td"><span class="txt"><%= m.author %></span></td>
-                <td class="td"><span class="txt left"><%= m.description %></span></td>
-            </tr>
-            <% }); %>
-        </tbody>
-    </table>
-    <% }); %>
+    <h1 class="title">gulp-filemap-generator</h1>
+    <% if(maps) {%>
+        <h2><i class="far fa-folder"></i> root 폴더 (build)</h2>
+        <div class="map_tree">
+            <% _.each(maps,function(map,index){ %>
+                <% if(map.type === 'folder'){%>
+                    <h2 class="page"><i class="far fa-folder"></i> <%= map.folderName %></h2>
+                <% }%>
+
+                <% if(map.children.length){ %>
+                    <ul class="file_list">
+                    <% _.each(map.children,function(child,idx){ %>
+                        <% if(child.type === 'folder') { %>
+                            <li>
+                                <span><i class="far fa-folder"></i> <%= child.folderName %>/</span>
+                                <ul class="file_list">
+                                    <% _.each(child.children,function(grandChild,idx){ %>
+                                        <% if(grandChild.type === 'folder') { %>
+                                            <li>
+                                                <span><i class="far fa-folder"></i> <%= child.folderName %>/</span>
+                                            </li>
+                                        <% } else if(grandChild.type === 'file') { %>
+                                            <li>
+                                                <div class="file_info">
+                                                    <span>
+                                                        <i class="far fa-file-code"></i>
+                                                        <a href="<%= grandChild.data.href %>" class="txt" target="_blank"><%= grandChild.fileName %></a>
+                                                    </span>
+                                                    <span>타이틀(<%= grandChild.data.title %>)</span>
+                                                    <span>작업자(<%= grandChild.data.author %>)</span>
+                                                    <span>설명(<%= grandChild.data.description %>)</span>
+                                                </div>
+                                            </li>
+                                        <% } %>
+                                    <% }) %>
+                                </ul>
+                            </li>
+                        <% } else if(child.type === 'file') { %>
+                            <li>
+                                <div class="file_info">
+                                    <span>
+                                        <i class="far fa-file-code"></i>
+                                        <a href="<%= child.data.href %>" class="txt" target="_blank">/<%= child.fileName %></a>
+                                    </span>
+                                    <span>타이틀(<%= child.data.title %>)</span>
+                                    <span>작업자(<%= child.data.author %>)</span>
+                                    <span>설명(<%= child.data.description %>)</span>
+                                </div>
+                            </li>
+                        <% } %>
+                    <% }) %>
+                    </ul>
+                <% } %>
+            <% }) %>
+        </div>
+    <% } %>
 </div>    
-
-<!-- division 옵션을 주지 않았을 경우 maps가 배열로 넘어온다. 예) maps:[] -->
-<!--<h2 class="page"><%= folderNames[0] %> 목록</h1>
-<table class="table">
-    <thead>
-        <tr class="tr">
-            <th class="th"><span class="txt">타이틀</span></th>
-            <th class="th"><span class="txt">파일경로</span></th>
-            <th class="th"><span class="txt">파일명</span></th>
-            <th class="th"><span class="txt">작업자</span></th>
-            <th class="th"><span class="txt">설명</span></th>
-        </tr>
-    </thead>
-    <tbody>
-        <% _.each(maps, function(m) { %>
-        <tr class="tr">
-            <td class="td"><span class="txt"><%= m.title %></span></td>
-            <td class="td"><span class="txt left"><%= m.href %></span></td>
-            <td class="td"><a href="<%= m.href %>" class="txt" target="_blank"><%= m.name %></a></td>
-            <td class="td"><span class="txt"><%= m.author %></span></td>
-            <td class="td"><span class="txt left"><%= m.description %></span></td>
-        </tr>
-        <% }); %>
-    </tbody>
-</table>-->
-
-
-    
 </body>
 </html>
