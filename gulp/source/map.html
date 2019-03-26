@@ -19,54 +19,55 @@
         <h2><i class="far fa-folder"></i> root 폴더 (build)</h2>
         <div class="map_tree">
             <% _.each(maps,function(map,index){ %>
-                <% if(map.type === 'folder'){%>
+                <% if(map.type === 'file'){%>
+                    <a href="<%= map.href %>" class="txt" target="_blank"><%= map.fileName %></a>
+                <% } else {%>
                     <h2 class="page"><i class="far fa-folder"></i> <%= map.folderName %></h2>
+                    <% if(map.children.length){ %>
+                        <ul class="file_list">
+                        <% _.each(map.children,function(child,idx){ %>
+                            <% if(child.type === 'folder') { %>
+                                <li>
+                                    <span><i class="far fa-folder"></i> <%= child.folderName %>/</span>
+                                    <ul class="file_list">
+                                        <% _.each(child.children,function(grandChild,idx){ %>
+                                            <% if(grandChild.type === 'folder') { %>
+                                                <li>
+                                                    <span><i class="far fa-folder"></i> <%= child.folderName %>/</span>
+                                                </li>
+                                            <% } else if(grandChild.type === 'file') { %>
+                                                <li>
+                                                    <div class="file_info">
+                                                        <span>
+                                                            <i class="far fa-file-code"></i>
+                                                            <a href="<%= grandChild.href %>" class="txt" target="_blank"><%= grandChild.fileName %></a>
+                                                        </span>
+                                                        <span>타이틀(<%= grandChild.data.title %>)</span>
+                                                        <span>작업자(<%= grandChild.data.author %>)</span>
+                                                        <span>설명(<%= grandChild.data.description %>)</span>
+                                                    </div>
+                                                </li>
+                                            <% } %>
+                                        <% }) %>
+                                    </ul>
+                                </li>
+                            <% } else if(child.type === 'file') { %>
+                                <li>
+                                    <div class="file_info">
+                                        <span>
+                                            <i class="far fa-file-code"></i>
+                                            <a href="<%= child.href %>" class="txt" target="_blank">/<%= child.fileName %></a>
+                                        </span>
+                                        <span>타이틀(<%= child.data.title %>)</span>
+                                        <span>작업자(<%= child.data.author %>)</span>
+                                        <span>설명(<%= child.data.description %>)</span>
+                                    </div>
+                                </li>
+                            <% } %>
+                        <% }) %>
+                        </ul>
+                    <% } %>
                 <% }%>
-
-                <% if(map.children.length){ %>
-                    <ul class="file_list">
-                    <% _.each(map.children,function(child,idx){ %>
-                        <% if(child.type === 'folder') { %>
-                            <li>
-                                <span><i class="far fa-folder"></i> <%= child.folderName %>/</span>
-                                <ul class="file_list">
-                                    <% _.each(child.children,function(grandChild,idx){ %>
-                                        <% if(grandChild.type === 'folder') { %>
-                                            <li>
-                                                <span><i class="far fa-folder"></i> <%= child.folderName %>/</span>
-                                            </li>
-                                        <% } else if(grandChild.type === 'file') { %>
-                                            <li>
-                                                <div class="file_info">
-                                                    <span>
-                                                        <i class="far fa-file-code"></i>
-                                                        <a href="<%= grandChild.data.href %>" class="txt" target="_blank"><%= grandChild.fileName %></a>
-                                                    </span>
-                                                    <span>타이틀(<%= grandChild.data.title %>)</span>
-                                                    <span>작업자(<%= grandChild.data.author %>)</span>
-                                                    <span>설명(<%= grandChild.data.description %>)</span>
-                                                </div>
-                                            </li>
-                                        <% } %>
-                                    <% }) %>
-                                </ul>
-                            </li>
-                        <% } else if(child.type === 'file') { %>
-                            <li>
-                                <div class="file_info">
-                                    <span>
-                                        <i class="far fa-file-code"></i>
-                                        <a href="<%= child.data.href %>" class="txt" target="_blank">/<%= child.fileName %></a>
-                                    </span>
-                                    <span>타이틀(<%= child.data.title %>)</span>
-                                    <span>작업자(<%= child.data.author %>)</span>
-                                    <span>설명(<%= child.data.description %>)</span>
-                                </div>
-                            </li>
-                        <% } %>
-                    <% }) %>
-                    </ul>
-                <% } %>
             <% }) %>
         </div>
     <% } %>

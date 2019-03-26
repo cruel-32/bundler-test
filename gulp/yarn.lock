@@ -3570,9 +3570,9 @@ gulp-file-include@^2.0.1:
     through2 "^2.0.3"
     vinyl "^2.1.0"
 
-gulp-filemap-generator@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/gulp-filemap-generator/-/gulp-filemap-generator-0.0.2.tgz#8a18420ae7d46428c73bd8a954c6b6fcd8f5c633"
+gulp-filemap-generator@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/gulp-filemap-generator/-/gulp-filemap-generator-0.0.5.tgz#1a1869bb1de41975abc44c90b698f77d3f8b1f97"
   dependencies:
     consolidate "^0.14.5"
     gulp-util "^3.0.6"

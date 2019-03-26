@@ -72,14 +72,16 @@ const generateFilemap = () => src([`${project}/**/*.html`], {since: lastRun(html
     .pipe(filemapGenerator({
         'template':`map.html`,
         'templatePath':`${origin}`,
-        'root': '/root/',
         'title':'-',
         'author':'cruel32',
         'description':'설명이 없어요',
         'stream' : false,
         'baseDir' : `${project}`,
         'listName' : 'maps',
-        'hrefBaseDir' : ``
+        'hrefBaseDir' : ``,
+        'toJson' : false,
+        "jsonName" : "maps",
+        "jsonDest" : `${project}`
     }))
     .pipe(dest(`${project}`))
 
