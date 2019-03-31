@@ -4,13 +4,13 @@ const a = 1;
 const b = 2;
 const c = 3;
 
-console.log('a & b : ', (a & b) & c);
-console.log('a | b : ', (a | b));
+// console.log('a & b : ', (a & b) & c);
+// console.log('a | b : ', (a | b));
 
-console.log('2진 : ', parseInt("0101",2) );
-console.log( null == undefined);
+// console.log('2진 : ', parseInt("0101",2) );
+// console.log( null == undefined);
 
-console.log( parseInt(null));
+// console.log( parseInt(null));
 
 //Stack과 Queue를 공부해보자
 
@@ -55,9 +55,9 @@ function baseConverter(decNumber, base){
     return baseString;
 }
 
-console.log(baseConverter(100345,2));
-console.log(baseConverter(100345,8));
-console.log(baseConverter(100345,16));
+// console.log(baseConverter(100345,2));
+// console.log(baseConverter(100345,8));
+// console.log(baseConverter(100345,16));
 
 //Queue => 선입선출 FIFO
 function Queue(){

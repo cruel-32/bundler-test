@@ -5,14 +5,6 @@ function Graph(){
     let vertices = [];
     let adjList = new Dictionary();
 
-    const initializeColor = ()=>{
-        let color = [];
-        for(let i=0; i<vertices.length; i++){
-            color[vertices[i]] = 'white';
-        }
-        return color;
-    }
-
     this.addVertex = (v)=>{
         vertices.push(v);
         adjList.set(v,[]);
@@ -36,12 +28,19 @@ function Graph(){
         return s;
     }
 
+    const initializeColor = ()=>{
+        let color = [];
+        for(let i=0; i<vertices.length; i++){
+            color[vertices[i]] = 'white';
+        }
+        return color;
+    }
+
     this.bfs = (v, callback)=>{
         let color = initializeColor(),
             queue = new Queue();
         
         queue.enqueue(v);
-
         while(!queue.isEmpty()){
             let u = queue.dequeue(),
                 neighbors = adjList.get(u);
@@ -61,6 +60,47 @@ function Graph(){
             }
         }
     }
+
+    this.BFS = (v, callback)=>{
+        let color = initializeColor(),
+            queue = new Queue(),
+            d = [],
+            pred = [];
+        
+        queue.enqueue(v);
+
+        for(let i=0; i<vertices.length; i++){
+            d[vertices[i]] = 0;
+            pred[vertices[i]] = null;
+        }
+
+        while(!queue.isEmpty()){
+            let u = queue.dequeue(),
+                neighbors = adjList.get(u);
+            color[u] = 'grey';
+            
+            for(let i=0; i<neighbors.length; i++){
+                let w = neighbors[i];
+                if(color[w] === 'white'){
+                    color[w] = 'grey';
+                    d[w] = d[u] +1;
+                    pred[w] = u;
+                    queue.enqueue(w);
+                }
+            }
+            color[u] = 'black';
+            if(callback){
+                callback(u);
+            }
+        }
+
+        return {
+            distances : d,
+            predecessors : pred
+        }
+
+    }
+
     this.printNode = (value)=>{
         console.log('탐색한 정점 : ', value);
     }
@@ -84,6 +124,30 @@ graph.addEdge('B','E');
 graph.addEdge('B','F');
 graph.addEdge('E','I');
 
-console.log(graph.toString());
+// console.log(graph.toString());
 
 graph.bfs(myVertices[0], graph.printNode);
+
+// graph.BFS(myVertices[0], graph.printNode);
+
+const shortestPathA = graph.BFS(myVertices[0]);
+
+console.log(shortestPathA);
+
+
+const fromVertex = myVertices[0];
+for(let i=1; i<myVertices.length; i++){
+    let toVertex = myVertices[i],
+        path = new Stack();
+    for(let v=toVertex; v!==fromVertex; v=shortestPathA.predecessors[v]){
+        path.push(v);
+    }
+    path.push(fromVertex);
+    let s = path.pop();
+    while(!path.isEmpty()){
+        s += ' - ' + path.pop();
+    }
+    console.log(s);
+}
+
+

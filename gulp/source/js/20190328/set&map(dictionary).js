@@ -93,8 +93,8 @@ set.add('a');
 set.add('b');
 set.add('c');
 
-console.log('set : ', set);
-console.log('set.values() : ', set.values());
+// console.log('set : ', set);
+// console.log('set.values() : ', set.values());
 
 const setA = new Set();
 setA.add(1);
@@ -110,10 +110,10 @@ setB.add(6);
 setB.add(7);
 
 
-console.log('union : ', setA.union(setB));
-console.log('intersection : ', setA.intersection(setB));
-console.log('difference : ', setA.difference(setB));
-console.log('subset : ', setA.subset(setB));
+// console.log('union : ', setA.union(setB));
+// console.log('intersection : ', setA.intersection(setB));
+// console.log('difference : ', setA.difference(setB));
+// console.log('subset : ', setA.subset(setB));
 
 //dictionary 또는 map이라 부른다
 class Dictionary {
@@ -165,9 +165,9 @@ dictionary.set('Gandalf', 'gandalf@email.com');
 dictionary.set('John', 'JohnSnow@email.com');
 dictionary.set('Tyrion', 'Tyrion@email.com');
 
-console.log('dictionary has : ', dictionary.has('Gandalf'));
-console.log('dictionary size : ', dictionary.size());
-console.log('dictionary keys : ', dictionary.keys());
-console.log('dictionary values : ', dictionary.values());
-console.log('dictionary get : ', dictionary.get('Tyrion'));
+// console.log('dictionary has : ', dictionary.has('Gandalf'));
+// console.log('dictionary size : ', dictionary.size());
+// console.log('dictionary keys : ', dictionary.keys());
+// console.log('dictionary values : ', dictionary.values());
+// console.log('dictionary get : ', dictionary.get('Tyrion'));
 
