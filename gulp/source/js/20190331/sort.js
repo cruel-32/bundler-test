@@ -70,8 +70,95 @@ function ArrayList(){
             array[j] = temp;
         }
     }
-    
 
+    const mergeSortRec = (array)=>{
+        const length = array.length;
+
+        if(length===1){
+            return array;
+        }
+
+        const mid = Math.floor(length/2),
+            left = array.slice(0,mid),
+            right = array.slice(mide, length);
+
+        return merge(mergeSortRec(left),mergeSortRec(right));
+    }
+
+    const merge = (left,right)=>{
+        const result = [],
+            il = 0, ir = 0;
+        
+        while(il<left.length&&ir<right.length){
+            if(left[il]<right[ir]){
+                result.push(left[il++]);
+            } else {
+                result.push(right[ir++]);
+            }
+        }
+
+        while(il<left.length){
+            result.push(left[il++]);
+        }
+
+        while(ir<right.length){
+            result.push(right[ir++]);
+        }
+
+        return result;
+    }
+
+    this.mergeSort = ()=>{
+        array = mergeSortRect(array);
+    }
+
+    const quick = (array, left, right) =>{
+        let index;
+
+        if(array.length > 1){
+            index = partition(array, left, right);
+
+            if(left < index -1){
+                quick(array, left, index-1);
+            }
+
+            if(index < right){
+                quick(array, index, right);
+            }
+        }
+    }
+
+    const partition = (array,left,right)=>{
+        let pivot =array[Math.floor((right+left)/2)],
+            i=left, j=right;
+
+        while(i<=j){
+            while(array[i]<pivot){
+                i++;
+            }
+            while(array[j]>pivot){
+                j--;
+            }
+            if(1<=j){
+                swapQuickStort(array, i, j);
+                i++;
+                j--;
+            }
+        }
+        return i;
+    }
+
+    const swapQuickStort = (array,index1,index2)=>{
+        let aux = array[index1];
+        array[index1] = array[index2];
+        array[index2] = aux;
+    }
+
+    this.quickSort = ()=>{
+        quick(array, 0, array.length-1);
+    }
+
+    
 }
 
 function createNonSortedArray(size){
