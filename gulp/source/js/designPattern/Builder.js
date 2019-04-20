@@ -22,6 +22,7 @@ var Westeros;
         }
         LannisterTournamentBuilder.prototype.build = function () {
             var tournament = new Tournament();
+            console.log('tournament : ', tournament);
             tournament.events.push(new Event("Joust"));
             tournament.events.push(new Event("Melee"));
 
@@ -86,3 +87,5 @@ var Westeros;
 // for(var i =0; i<gods.length; i++){
 //   gods[i].praryTo();
 // }
+
+
