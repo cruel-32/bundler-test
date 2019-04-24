@@ -1,40 +1,40 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add sassdoc-theme-jigSass
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js
 
 PATH: 
-  C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\TortoiseSVN\bin;";C:\Program Files\Java\jdk1.6.0_45\\bin";C:\Program Files (x86)\Yarn\bin\;C:\CertiPro\sdk\bin;C:\Program Files\nodejs\;C:\Users\csh\AppData\Local\Programs\Python\Python37-32\Scripts\;C:\Users\csh\AppData\Local\Programs\Python\Python37-32\;C:\Users\csh\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Bandizip\;C:\Program Files\Microsoft VS Code\bin;C:\Users\csh\AppData\Local\Yarn\bin;C:\Program Files\heroku\bin;C:\Users\csh\AppData\Roaming\npm
+  D:\app\user\product\12.1.0\client_1\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\nodejs\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Git\cmd;C:\Program Files\PuTTY\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\MariaDB\MariaDB Connector C 64-bit\lib\;C:\Program Files\MariaDB\MariaDB Connector C 64-bit\lib\plugin\;C:\Program Files (x86)\Yarn\bin\;C:\Users\user\AppData\Local\Microsoft\WindowsApps;C:\Users\user\AppData\Roaming\npm;C:\Program Files\Bandizip\;C:\Users\user\.dotnet\tools;C:\Users\user\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\user\AppData\Local\Yarn\bin
 
 Yarn version: 
-  1.9.4
+  1.15.2
 
 Node version: 
-  8.12.0
+  8.11.3
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/sassdoc-theme-jigSass: Not found
-      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:64202:18)
-      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:137468:22)
-      at emitTwo (events.js:126:13)
-      at Request.emit (events.js:214:7)
-      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:138440:10)
-      at emitOne (events.js:116:13)
-      at Request.emit (events.js:211:7)
-      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:138362:12)
+  Error: https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.12.tgz: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:130168:19)
       at Object.onceWrapper (events.js:313:30)
-      at emitNone (events.js:111:20)
+      at emitNone (events.js:106:13)
+      at ClientRequest.emit (events.js:208:7)
+      at TLSSocket.emitTimeout (_http_client.js:706:34)
+      at Object.onceWrapper (events.js:313:30)
+      at emitNone (events.js:106:13)
+      at TLSSocket.emit (events.js:208:7)
+      at TLSSocket.Socket._onTimeout (net.js:410:8)
+      at ontimeout (timers.js:498:11)
 
 npm manifest: 
   {
-    "name": "jquery-project",
+    "name": "project-with-gulp",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
-      "start": "gulp serve"
+      "start": "gulp"
     },
     "author": "",
     "license": "ISC",
@@ -57,7 +57,6 @@ npm manifest:
       "gulp-newer": "^1.3.0",
       "gulp-plumber": "^1.2.0",
       "gulp-sass": "^4.0.2",
-      "gulp-sitemap-generator": "*",
       "gulp-template": "^5.0.0",
       "gulp-util": "^3.0.8",
       "gulp-watch": "^5.0.1",
@@ -71,13 +70,15 @@ npm manifest:
       "browser-sync": "^2.26.3",
       "del": "^4.0.0",
       "docdash": "^1.0.3",
+      "gulp-cached": "^1.1.1",
+      "gulp-filemap-generator": "^0.0.5",
       "gulp-imagemin": "^5.0.3",
       "gulp-jsdoc3": "^2.0.0",
+      "gulp-remember": "^1.0.1",
       "gulp-uglify": "^3.0.2",
       "gulp-zip": "^4.2.0",
       "jsdoc-to-markdown": "^4.0.1",
       "sassdoc": "^2.5.1",
-      "sassdoc-theme-luckycss": "^1.0.1",
       "vinyl-ftp": "^0.6.1"
     }
   }
@@ -2595,7 +2596,7 @@ Lockfile:
     version "3.3.1"
     resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-3.3.1.tgz#a08cdde84ccdbf34d027a1451bc91d4bcd28a613"
   
-  es6-promise@^4.0.3, es6-promise@^4.0.5, es6-promise@^4.2.6:
+  es6-promise@^4.0.3, es6-promise@^4.2.6:
     version "4.2.6"
     resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.6.tgz#b685edd8258886365ea62b57d30de28fadcd974f"
   
@@ -3571,6 +3572,13 @@ Lockfile:
       through2 "^2.0.0"
       vinyl-sourcemaps-apply "^0.2.0"
   
+  gulp-cached@^1.1.1:
+    version "1.1.1"
+    resolved "https://registry.yarnpkg.com/gulp-cached/-/gulp-cached-1.1.1.tgz#fe7cd4f87f37601e6073cfedee5c2bdaf8b6acce"
+    dependencies:
+      lodash.defaults "^4.2.0"
+      through2 "^2.0.1"
+  
   gulp-clean@^0.4.0:
     version "0.4.0"
     resolved "https://registry.yarnpkg.com/gulp-clean/-/gulp-clean-0.4.0.tgz#3bc25e7084e641bbd7bde057cf90c01c50d95950"
@@ -3650,6 +3658,14 @@ Lockfile:
       plugin-error "^0.1.2"
       through2 "^2.0.3"
       vinyl "^2.1.0"
+  
+  gulp-filemap-generator@^0.0.5:
+    version "0.0.5"
+    resolved "https://registry.yarnpkg.com/gulp-filemap-generator/-/gulp-filemap-generator-0.0.5.tgz#1a1869bb1de41975abc44c90b698f77d3f8b1f97"
+    dependencies:
+      consolidate "^0.14.5"
+      gulp-util "^3.0.6"
+      lodash "^3.10.0"
   
   gulp-group-css-media-queries@^1.2.0:
     version "1.2.2"
@@ -3761,6 +3777,14 @@ Lockfile:
       plugin-error "^0.1.2"
       through2 "^2.0.3"
   
+  gulp-remember@^1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/gulp-remember/-/gulp-remember-1.0.1.tgz#cc3aab2a04a623614375571ca464d13e87502bfe"
+    dependencies:
+      fancy-log "^1.3.2"
+      plugin-error "^0.1.2"
+      through2 "^0.5.0"
+  
   gulp-rename@~1.1.0:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/gulp-rename/-/gulp-rename-1.1.0.tgz#93090aaaf4d386c07f20538a6888f15efba727a1"
@@ -3779,14 +3803,6 @@ Lockfile:
       strip-ansi "^4.0.0"
       through2 "^2.0.0"
       vinyl-sourcemaps-apply "^0.2.0"
-  
-  gulp-sitemap-generator@*:
-    version "0.1.9"
-    resolved "https://registry.yarnpkg.com/gulp-sitemap-generator/-/gulp-sitemap-generator-0.1.9.tgz#20a049087ba80da15dbe8f189e6ff2f1e7b82e4c"
-    dependencies:
-      consolidate "^0.14.5"
-      gulp-util "^3.0.6"
-      lodash "^3.10.0"
   
   gulp-sourcemaps@1.6.0:
     version "1.6.0"
@@ -4119,7 +4135,7 @@ Lockfile:
     version "1.1.2"
     resolved "https://registry.yarnpkg.com/html-comment-regex/-/html-comment-regex-1.1.2.tgz#97d4688aeb5c81886a364faa0cad1dda14d433a7"
   
-  html-minifier@^3.3.1, html-minifier@^3.5.21:
+  html-minifier@^3.5.21:
     version "3.5.21"
     resolved "https://registry.yarnpkg.com/html-minifier/-/html-minifier-3.5.21.tgz#d0040e054730e354db008463593194015212d20c"
     dependencies:
@@ -5188,7 +5204,7 @@ Lockfile:
     version "4.5.0"
     resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
   
-  lodash.defaults@^4.0.1:
+  lodash.defaults@^4.0.1, lodash.defaults@^4.2.0:
     version "4.2.0"
     resolved "https://registry.yarnpkg.com/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
   
@@ -7139,21 +7155,6 @@ Lockfile:
       extend "^3.0.2"
       fs-extra "^2.0.0"
       html-minifier "^3.5.21"
-      sassdoc-extras "^2.4.0"
-      swig "1.4.0"
-      swig-extras "0.0.1"
-  
-  sassdoc-theme-luckycss@^1.0.1:
-    version "1.0.1"
-    resolved "https://registry.yarnpkg.com/sassdoc-theme-luckycss/-/sassdoc-theme-luckycss-1.0.1.tgz#884c971ad2774e9cc6aa01f85f7760ff1ab24a1e"
-    dependencies:
-      babel-runtime "^6.22.0"
-      chroma-js "^1.2.2"
-      es6-denodeify "^0.1.0"
-      es6-promise "^4.0.5"
-      extend "^3.0.0"
-      fs-extra "^2.0.0"
-      html-minifier "^3.3.1"
       sassdoc-extras "^2.4.0"
       swig "1.4.0"
       swig-extras "0.0.1"
