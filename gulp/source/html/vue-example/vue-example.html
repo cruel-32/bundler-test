@@ -109,12 +109,18 @@
             },
             print(){
                 console.log('cols : ', this.cols);
+            },
+            addRow(){
+                this.cols.push({
+                    name:"", age:0, job:''
+                })
             }
         },
         template : `
             <div>
                 <h1>{{title}}</h1>
                 <grid :headers="headers" :cols="cols"></grid>
+                <button @click="addRow">로우 추가하기</button>
                 <button @click="print">console.log</button>
             </div>
         `
