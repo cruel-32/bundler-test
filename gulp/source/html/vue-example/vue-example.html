@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>vue 예제</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="csh">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <style>
+        th,td {border:1px solid #ccc;}
+    </style>
+</head>
+<body>
+
+<div id="app">
+</div>
+
+<script>
+    Vue.component('grid', {
+        props : [
+            "headers",
+            "cols",
+        ],
+        template: `
+            <table>
+                <thead>
+                    <tr>
+                        <grid-cell-header
+                            v-for="(header,index) in headers"
+                            :key="index"
+                            :header="header"
+                        >
+                        </grid-cell-header>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(col,colIdx) in cols"
+                        :key="colIdx"
+                    >
+                        <grid-cell
+                            v-for="(header,headerIndex) in headers"
+                            :key="headerIndex"
+                            :col="col"
+                            :header="header"
+                        >
+                        </grid-cell>
+                    </tr>
+                </tbody>
+            </table>
+        `,
+    });
+
+    Vue.component('grid-cell-header', {
+        props : [
+            "header",
+        ],
+        template: `
+            <th>
+                {{header.text}}
+            </th>
+        `,
+    });
+
+    Vue.component('grid-cell', {
+        props : [
+            "col","header"
+        ],
+        data(){
+            return {
+                isEditing:false
+            }
+        },
+        template: `
+            <td @click="isEditing=true">
+                <span v-if="!isEditing">{{col[header.field]}}</span>
+                <input v-if="isEditing" type="text" v-model="col[header.field]" @blur="isEditing=false" />
+            </td>
+        `,
+    });
+    
+    const app = new Vue({
+        el : "#app",
+        data(){
+            return {
+                title : "뀨 뷰 예제",
+                headers : [
+                    {field:'name', text:'이름'},
+                    {field:'age', text:'나이'},
+                    {field:'job', text:'직업'},
+                ],
+                cols : []
+            }
+        },
+        created(){
+            this.getData();
+        },
+        methods : {
+            getData(){
+                //데이터 가져온다.
+                this.cols = [
+                    {name:"승승", age:35, job:'프론트엔드 개발자'},
+                    {name:"뀨", age:32, job:'하이웹 노예'},
+                    {name:"엲", age:35, job:'펑타이 노예'},
+                    {name:"상ㄴ", age:37, job:'한량'},
+                    {name:"젾", age:29, job:'한량2'},
+                    {name:"탁", age:32, job:'환자'},
+                    {name:"개빡", age:32, job:'fighter'},
+                ];
+            },
+            print(){
+                console.log('cols : ', this.cols);
+            }
+        },
+        template : `
+            <div>
+                <h1>{{title}}</h1>
+                <grid :headers="headers" :cols="cols"></grid>
+                <button @click="print">console.log</button>
+            </div>
+        `
+    });
+</script>
+</body>
+</html>
