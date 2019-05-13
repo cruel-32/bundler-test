@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>form 예제</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="csh">
+    <style>
+        th,td {border:1px solid #ccc;}
+    </style>
+</head>
+<body>
+<div id="wrap">
+    <form method="GET" id="formA">
+        <input type="text" name="test1" value="" />
+        <input type="number" name="test2" value="" />
+        <input type="email" name="test3" value="" />
+        <div class="check">
+            <input type="checkbox" id="check1" name="check" value="체크테스트1"/><label for="check1">체크테스트1</label>
+            <input type="checkbox" id="check2" name="check" value="체크테스트2"/><label for="check2">체크테스트2</label>
+            <input type="checkbox" id="check3" name="check" value="체크테스트3"/><label for="check3">체크테스트3</label>
+            <input type="checkbox" id="check4" name="check" value="체크테스트4"/><label for="check4">체크테스트4</label>
+        </div>
+        <div class="radio">
+            <input type="radio" id="radio1" name="radio" value="라디오테스트1"/><label for="radio1">라디오테스트1</label>
+            <input type="radio" id="radio2" name="radio" value="라디오테스트2"/><label for="radio2">라디오테스트2</label>
+            <input type="radio" id="radio3" name="radio" value="라디오테스트3"/><label for="radio3">라디오테스트3</label>
+            <input type="radio" id="radio4" name="radio" value="라디오테스트4"/><label for="radio4">라디오테스트4</label>
+        </div>
+        <div class="btn-sec">
+            <input type="button">전송1</input>
+            <input type="submit">전송2</input>
+            <button type="submit" id="test">전송3</button>
+        </div>
+    </form>
+</div>
+<script>
+
+    document.querySelector("#test").addEventListener('click', (e)=>{
+        e.preventDefault();
+        const formA = document.querySelector('#formA');
+        var data = new FormData(formA);
+        console.log("data : ", data); //안되자너 이거 누가 된대 ㅡㅡ
+    })
+
+</script>
+</body>
+</html>
