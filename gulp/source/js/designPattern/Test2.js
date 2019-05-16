@@ -1,4 +1,35 @@
 'use strict'
+const parseTo10 = N => {
+    return Array.prototype.slice.call(N.toString()).reduce((num,item,idx,arr)=> {
+        if(item > 0){
+            const x = (arr.length-1) - idx;
+            // console.log('arr : ', arr);
+            // console.log('idx : ', idx);
+            // console.log('x : ', x);
+            num+=(x ? Math.pow(2,x) : parseInt(item))
+        }
+        // console.log('num : ', num);
+        return num;
+    } ,0)
+}
+    
+const parseTo2 = N => {
+    let array = [];
+    const unshifter = n => {
+        if(n == 1){
+            array.unshift(n)
+        } else {
+            array.unshift(n%2)
+            const nn = Math.floor(n/2);
+            if(nn>=1){
+                unshifter(nn);
+            }
+        }
+    }
+    unshifter(N);
+    return BigInt(array.join(''));
+}
+
 function failedSolution(A) {
     let exception = [];
     for(let i=0; i<A.length; i++){
@@ -71,7 +102,9 @@ console.timeEnd('slowSolution2');
 
 function solution(A) {
     let result = 0;
-    for (let element of A) {
+    for (let element of A) {  
+        // console.log(parseTo2(result), ' ^ ', parseTo2(element))
+        console.log(`result : ${result} (${parseTo2(result)}) ^ element : ${element} (${parseTo2(element)}) => ${result^element} (${parseTo2(result^element)})`)
         result ^= element
     }
     return result
@@ -82,55 +115,23 @@ const result = solution([9,6,6,9,3,9,8,3,9,6,6,3,7,7,8]);
 console.log('result : ', result);
 console.timeEnd('solution');
 
-//11100110111110100000000000000110000000000001
 
-const parseTo10 = N => {
-    console.log('parseTo10 N : ', N);
-    return Array.prototype.slice.call(N.toString()).reduce((num,item,idx,arr)=> {
-        if(item > 0){
-            const x = (arr.length-1) - idx;
-            // console.log('arr : ', arr);
-            // console.log('idx : ', idx);
-            // console.log('x : ', x);
-            num+=(x ? Math.pow(2,x) : parseInt(item))
-        }
-        // console.log('num : ', num);
-        return num;
-    } ,0)
-}
 
-    
-const parseTo2 = N => {
-    console.log('parseTo2 N : ', N);
-    let array = [];
 
-    const unshifter = n => {
-        if(n == 1){
-            array.unshift(n)
-        } else {
-            array.unshift(n%2)
-            const nn = Math.floor(n/2);
-            if(nn>=1){
-                unshifter(nn);
-            }
-        }
-    }
-    unshifter(N);
-    return parseInt(array.join(''));
-}
+
     
 // console.log('parseTo10 11100110111110100000000000000110000000000001 : ', parseTo10(11100110111110100000000000000110000000000001) )
 // console.log('parseTo10 10100000000000000110000000000001 : ', parseTo10(10100000000000000110000000000001) )
-console.log('parseTo10 11111111111111111111 : ', parseTo10(11111111111111111111) )
-console.log('parseTo10 10110011011111010000 : ', parseTo10(10110011011111010000) )
-console.log('parseTo10 100000000000 : ', parseTo10(100000000000) )
-console.log('parseTo10 100011 : ', parseTo10(100011) )
-console.log('parseTo10 101 : ', parseTo10(101) )
+// console.log('parseTo10 11111111111111111111 : ', parseTo10(BigInt(11111111111111111111)))
+// console.log('parseTo10 10110011011111010000 : ', parseTo10(BigInt(10110011011111010000)))
+// console.log('parseTo10 100000000000 : ', parseTo10(100000000000) )
+// console.log('parseTo10 100011 : ', parseTo10(100011) )
+// console.log('parseTo10 101 : ', parseTo10(101) )
 
-console.log('parseTo2 1048560 : ', parseTo2(1048560) );
-console.log('parseTo2 735189 : ', parseTo2(735189) );
-console.log('parseTo2 2048 : ', parseTo2(2048) );
-console.log('parseTo2 35 : ', parseTo2(35) );
-console.log('parseTo2 5 : ', parseTo2(5) );
+// console.log('parseTo2 1048572 : ', parseTo2(1048572) );
+// console.log('parseTo2 735189 : ', parseTo2(735189) );
+// console.log('parseTo2 2048 : ', parseTo2(2048) );
+// console.log('parseTo2 35 : ', parseTo2(35) );
+// console.log('parseTo2 5 : ', parseTo2(5) );
 // console.log('parseTo2 147 : ', parseTo2(147) );
 // console.log('parseTo2 5 : ', parseTo2(5) );
