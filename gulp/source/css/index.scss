@@ -1,6 +1,8 @@
-@import 'import/response';
+@import 'import/_variable';
+@import 'import/_mixin';
 
 $main-width:100%;
+
 .wrap {
     $width:10px !global;
     border:$width solid red;
@@ -10,8 +12,9 @@ $main-width:100%;
     .show {
         display:block;
     }
-    @include pc-only {
-        width:50%;
+
+    @include mq(lg){
+        width:getSize(lg);
         &.set {
             width:10px;
             .setting1 {
@@ -22,23 +25,8 @@ $main-width:100%;
             }
         }
     }
-    @include pc-large {
-        width:50%;
-    }
-    @include tab {
-        width:30%;
-    }
 }
 
-.sidebar {
-    width:$width;
-    @include pc-only {
-        width:50%;
-    }
-    @include pc-large {
-        width:50%;
-    }
-}
 
 .footer {
     width:50px;

@@ -1,4 +1,6 @@
-@import 'import/response';
+@import 'import/_variable';
+@import 'import/_mixin';
+
 @mixin flex-attribute($color) {
     border:1px solid $color;
 }
@@ -31,7 +33,7 @@ $attrList :
         // flex-shrink:1;
         // flex-basis:100px;
         flex:1 1 auto;
-        @include pc_only {
+        @include mq(xl) {
             display:block;
         }
         @each $color in $attrList {

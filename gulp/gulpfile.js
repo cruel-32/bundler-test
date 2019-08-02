@@ -244,8 +244,8 @@ const api = (done) => {
 }
 
 const watcher = () => {
-    watch([`${origin}/html/**/*.html`, `${origin}/json/**/*.json`], html).on('change', browsersync.reload);
-    watch([`${origin}/css/**/*.{scss,sass.css}`], css).on('change', browsersync.reload);
+    watch([`${origin}/html/**/*.html`, `${origin}/json/**/*.json`, `${origin}/include/*.html`,], html).on('change', browsersync.reload);
+    watch([`${origin}/css/**/*.{scss,sass.css}`, `${origin}/css/**/_*.{scss,sass.css}`], css).on('change', browsersync.reload);
     watch([`${origin}/js/**/*.js`], scripts).on('change', browsersync.reload);
     watch([`${origin}/images/**/*.{gif,jpeg,jpg,png,svg}`], images).on('change', browsersync.reload);
     watch([`${origin}/images/sprite/**/*.png`], sprite).on('change', browsersync.reload);
