@@ -1,7 +1,7 @@
 import $ from 'jquery'
-import Slick from 'slick-carousel'
+import slickCarousel from 'slick-carousel'
 
-class TestCode {
+export class TestCode {
     name;
     amount;
 
@@ -20,21 +20,18 @@ class TestCode {
 
     setValues(...args){
         console.log('args ::::: ', args)
-
     }
 }
 
-const testCode = new TestCode();
-
-testCode.init({
-    name:'test',
-    amount:1000,
-})
-
-console.log('$ :::::::::: ', $)
-console.log('Slick :::::::::: ', Slick)
+console.log('$ ::::: ', $)
 
 $('button').on('click', e => {
     e.preventDefault();
     console.log('테스트')
 })
+
+console.log('slickCarousel ::::: ', slickCarousel)
+
+$('#test2').slick()
+
+

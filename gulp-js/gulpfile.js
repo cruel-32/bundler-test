@@ -1,10 +1,7 @@
 const { src, dest, series, parallel, watch, lastRun } = require('gulp');
-const gutil = require('gulp-util'),
-    plumber = require('gulp-plumber'),
-    newer = require('gulp-newer'),
-    babel = require('gulp-babel'),
-    uglify = require('gulp-uglify'),
-    browsersync = require("browser-sync").create(),
+const webpackStream = require('webpack-stream'),
+    webpackConfig = require ("./webpack.config.js"),
+    browsersync = require("browser-sync").create()
     del = require('del');
 
 const origin = "source",
@@ -15,25 +12,10 @@ const clean = async (done) => {
     done();
 }
 
-const scripts = ()=> src(`${origin}/js/**/*.js`, {since: lastRun(scripts)})
-    .pipe(newer(`${origin}/js/**/*.js`))
-    .pipe(plumber({errorHandler : gutil.log}))
-    .pipe(babel({
-        presets: [
-            '@babel/preset-env',
-            // '@babel/env',
-        ],
-        plugins : [
-            "@babel/plugin-proposal-class-properties",
-            "@babel/plugin-proposal-optional-chaining",
-            "@babel/plugin-proposal-nullish-coalescing-operator",
-            "@babel/plugin-proposal-object-rest-spread",
-            "@babel/plugin-transform-runtime",
-        ]
-    }))
-    .pipe(uglify())
-    .pipe(dest(`${build}`))
-    .pipe(browsersync.stream());
+const bundling = () =>
+    src(`${origin}/js/**/*.js`)
+    .pipe(webpackStream(webpackConfig))
+    .pipe(dest(build));
 
 const browserSyncInit = (done)=>{
     browsersync.init({
@@ -41,9 +23,9 @@ const browserSyncInit = (done)=>{
         server: {
             baseDir: `${origin}/`,
         },
-        port: 3000
-    },(err,bs)=>{
-        // console.log('err : ', err);
+        port: 5000
+    },(err, bs)=>{
+        console.log('err : ', err);
         // console.log('server : ', bs.options.get('server'));
         // console.log('urls : ', bs.options.get('urls'));
     });
@@ -51,9 +33,8 @@ const browserSyncInit = (done)=>{
 }
 
 const watcher = () => {
-    watch([`${origin}/html/**/*.html`], scripts).on('change', browsersync.reload);
-    watch([`${origin}/js/**/*.js`], scripts).on('change', browsersync.reload);
+    watch([`${origin}/js/**/*.js`], bundling).on('change', browsersync.reload);
 }
 
-exports.default = series(clean, scripts, parallel(browserSyncInit, watcher) );
+exports.default = series(clean, bundling, parallel(browserSyncInit, watcher));
 exports.clean = clean;
