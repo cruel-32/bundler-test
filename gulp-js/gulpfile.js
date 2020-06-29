@@ -20,7 +20,8 @@ const scripts = ()=> src(`${origin}/js/**/*.js`, {since: lastRun(scripts)})
     .pipe(plumber({errorHandler : gutil.log}))
     .pipe(babel({
         presets: [
-            '@babel/preset-env'
+            '@babel/preset-env',
+            // '@babel/env',
         ],
         plugins : [
             "@babel/plugin-proposal-class-properties",
