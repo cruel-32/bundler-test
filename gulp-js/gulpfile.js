@@ -14,7 +14,7 @@ const clean = async (done) => {
 }
 
 const bundling = () =>
-    src(`${origin}/js/**/*.js`)
+    src([`${origin}/js/**/*.js`, `!${origin}/js/modules/**/*.js`])
     .pipe(namedWithPath())
     .pipe(webpackStream(webpackConfig))
     .pipe(dest(`${build}`));

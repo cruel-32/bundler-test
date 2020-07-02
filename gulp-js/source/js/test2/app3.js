@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import { TestCode } from '../Slick'
+import { TestCode } from 'modules/Slick'
 
 const testCode = new TestCode();
 const abc = {

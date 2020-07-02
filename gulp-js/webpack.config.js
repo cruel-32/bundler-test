@@ -32,6 +32,11 @@ module.exports = {
                             '@babel/preset-env',
                         ],
                         plugins : [
+                            [
+                                "module-resolver", {
+                                    "root": ["./source/js/"],
+                                }
+                            ],
                             "@babel/plugin-transform-modules-commonjs",
                             "@babel/plugin-proposal-class-properties",
                             "@babel/plugin-proposal-optional-chaining",
