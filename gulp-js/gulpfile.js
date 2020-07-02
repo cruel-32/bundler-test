@@ -1,7 +1,9 @@
 const { src, dest, series, parallel, watch, lastRun } = require('gulp');
 const webpackStream = require('webpack-stream'),
     webpackConfig = require ("./webpack.config.js"),
-    browsersync = require("browser-sync").create()
+    named = require('vinyl-named'),
+    namedWithPath = require('vinyl-named-with-path'),
+    browsersync = require("browser-sync").create(),
     del = require('del');
 
 const origin = "source",
@@ -14,8 +16,9 @@ const clean = async (done) => {
 
 const bundling = () =>
     src(`${origin}/js/**/*.js`)
+    .pipe(namedWithPath())
     .pipe(webpackStream(webpackConfig))
-    .pipe(dest(build));
+    .pipe(dest(`${build}`));
 
 const browserSyncInit = (done)=>{
     browsersync.init({

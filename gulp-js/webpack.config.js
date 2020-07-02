@@ -1,10 +1,23 @@
+
 module.exports = {
     mode : process.env.NODE_ENV || 'development',
-    entry: {
-        app : './source/js/app.js',
-    },
-    output: {
-        filename: '[name].js',
+    // entry: {
+    //     app : './source/js/app.js',
+    //     Slick : './source/js/Slick.js',
+    // },
+    // output: {
+    //     filename: '[name].js',
+    // },
+    optimization : {
+        splitChunks : {
+            cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    chunks: 'all',
+                    name: 'lib',
+                }
+            }
+        }
     },
     module: {
         rules: [
