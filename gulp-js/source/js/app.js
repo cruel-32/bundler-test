@@ -1,18 +1,18 @@
 import $ from 'jquery'
-import { TestCode } from './Slick'
+import slickCarousel from 'slick-carousel'
 
-const testCode = new TestCode();
-const abc = {
-    name : 'test1111',
-    amount : 3000,
-}
+// const testCode = new TestCode();
+// const abc = {
+//     name : 'test1111',
+//     amount : 3000,
+// }
 
-testCode?.init({
-    ...abc,
-    amount:1000,
-})
+// testCode?.init({
+//     ...abc,
+//     amount:1000,
+// })
 
-testCode?.setValues('test22', 2000)
+// testCode?.setValues('test22', 2000)
 
 console.log('$ ::::: ', $)
 

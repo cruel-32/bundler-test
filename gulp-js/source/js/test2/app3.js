@@ -3,8 +3,8 @@ import { TestCode } from '../Slick'
 
 const testCode = new TestCode();
 const abc = {
-    name : 'test1111',
-    amount : 3000,
+    name : 'test3333',
+    amount : 5000,
 }
 
 testCode?.init({
@@ -15,14 +15,6 @@ testCode?.init({
 testCode?.setValues('test22', 2000)
 
 console.log('$ ::::: ', $)
-
-
-$('#test1').slick()
-
-$('button').on('click', e => {
-    e.preventDefault();
-    console.log('테스트')
-})
 
 
 

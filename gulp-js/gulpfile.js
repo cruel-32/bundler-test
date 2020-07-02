@@ -1,7 +1,6 @@
 const { src, dest, series, parallel, watch, lastRun } = require('gulp');
 const webpackStream = require('webpack-stream'),
     webpackConfig = require ("./webpack.config.js"),
-    named = require('vinyl-named'),
     namedWithPath = require('vinyl-named-with-path'),
     browsersync = require("browser-sync").create(),
     del = require('del');
@@ -41,3 +40,4 @@ const watcher = () => {
 
 exports.default = series(clean, bundling, parallel(browserSyncInit, watcher));
 exports.clean = clean;
+exports.build = series(clean, bundling);
